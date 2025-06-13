@@ -35,7 +35,7 @@ interface BrulageState {
 const initialFormData: Partial<BrulageFormData> = {
   commune: undefined,
   surface_reelle: 0,
-  statut: 'PLANIFIE',
+  statut: 'TERMINE',
   type_brulage: 'PREVENTIF',
   conditions: {
     id: 0,

@@ -35,7 +35,7 @@ interface SimpleFiltersState {
   filtersVisible: boolean;
   searchQuery: string;
   
-  // ✅ Cache pour les filtres de dates
+  //Cache pour les filtres de dates
   _cachedDateFilters?: DateFilters;
   
   // Actions simples
@@ -52,7 +52,7 @@ interface SimpleFiltersState {
   hasActiveFilters: () => boolean;
   getFilterCount: () => number;
   
-  // ✅ FONCTION CORRIGÉE avec cache
+  //FONCTION CORRIGÉE avec cache
   getDateFilters: () => DateFilters;
 }
 
@@ -79,7 +79,7 @@ export const useFiltersStore = create<SimpleFiltersState>()(
       // Actions
       setFilters: (newFilters) => set((state) => ({
         filters: { ...state.filters, ...newFilters },
-        // ✅ Invalidate cache when filters change
+        //Invalidate cache when filters change
         _cachedDateFilters: undefined
       })),
 
@@ -87,7 +87,7 @@ export const useFiltersStore = create<SimpleFiltersState>()(
         filters: defaultFilters,
         quickFilter: 'all',
         searchQuery: '',
-        // ✅ Invalidate cache
+        //Invalidate cache
         _cachedDateFilters: undefined
       }),
 
@@ -122,7 +122,7 @@ export const useFiltersStore = create<SimpleFiltersState>()(
         set({ 
           quickFilter, 
           filters, 
-          // ✅ Invalidate cache
+          //Invalidate cache
           _cachedDateFilters: undefined 
         });
       },
@@ -160,7 +160,7 @@ export const useFiltersStore = create<SimpleFiltersState>()(
         return count;
       },
 
-      // ✅ FONCTION CORRIGÉE avec mémorisation
+      //FONCTION CORRIGÉE avec mémorisation
       getDateFilters: (): DateFilters => {
         const state = get();
         const { filters, _cachedDateFilters } = state;

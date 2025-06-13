@@ -13,7 +13,6 @@ import {
   ChevronRight,
   FileText,
   FileSpreadsheet,
-  FileImage,
   Calendar,
   CalendarDays,
   Filter,
@@ -464,10 +463,6 @@ export default function BrulagesList() {
                 <DropdownMenuItem onClick={() => handleExport('json')}>
                   <FileText className="h-4 w-4 mr-2" />
                   Exporter en JSON
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleExport('pdf')}>
-                  <FileImage className="h-4 w-4 mr-2" />
-                  Exporter en PDF
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

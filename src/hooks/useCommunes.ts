@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { CommunesApi } from '@/api/communes';
 import { useFiltersStore } from '@/store/filtersStore';
 
-// ✅ Hook principal pour la liste des communes avec filtres
+//Hook principal pour la liste des communes avec filtres
 export function useCommunes(params?: {
   search?: string;
   withBrulages?: boolean;
@@ -12,11 +12,11 @@ export function useCommunes(params?: {
 }) {
   const { search, withBrulages = false, limit = 50, enabled = true } = params || {};
   
-  // ✅ Accès direct aux propriétés individuelles
+  //Accès direct aux propriétés individuelles
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
   
-  // ✅ Mémorisation de l'objet filters
+  //Mémorisation de l'objet filters
   const filters = useMemo(() => ({
     dateStart,
     dateEnd
@@ -31,7 +31,7 @@ export function useCommunes(params?: {
   });
 }
 
-// Hook pour une commune spécifique (INCHANGÉ)
+// Hook pour une commune spécifique
 export function useCommune(id: number, enabled: boolean = true) {
   return useQuery({
     queryKey: ['commune', id],
@@ -42,7 +42,7 @@ export function useCommune(id: number, enabled: boolean = true) {
   });
 }
 
-// ✅ Hook pour les données GeoJSON des communes avec filtres
+//Hook pour les données GeoJSON des communes avec filtres
 export function useCommunesGeoJson(withDetails: boolean = false) {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -60,7 +60,7 @@ export function useCommunesGeoJson(withDetails: boolean = false) {
   });
 }
 
-// ✅ Hook pour les statistiques des communes avec filtres
+//Hook pour les statistiques des communes avec filtres
 export function useCommunesStats() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -78,7 +78,7 @@ export function useCommunesStats() {
   });
 }
 
-// Hook pour la recherche de communes (INCHANGÉ - pas besoin de filtres)
+// Hook pour la recherche de communes
 export function useCommunesSearch(query: string, enabled: boolean = true) {
   return useQuery({
     queryKey: ['communes', 'search', query],
@@ -89,7 +89,7 @@ export function useCommunesSearch(query: string, enabled: boolean = true) {
   });
 }
 
-// Hook pour la recherche avancée de communes (INCHANGÉ - a déjà ses propres filtres)
+// Hook pour la recherche avancée de communes
 export function useCommunesSearchAdvanced(params?: {
   region?: string;
   departement?: string;
@@ -109,7 +109,7 @@ export function useCommunesSearchAdvanced(params?: {
   });
 }
 
-// ✅ Hook pour les données par région avec filtres
+//Hook pour les données par région avec filtres
 export function useCommunesRegions() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -127,7 +127,7 @@ export function useCommunesRegions() {
   });
 }
 
-// ✅ Hook pour l'analyse de couverture géographique avec filtres
+//Hook pour l'analyse de couverture géographique avec filtres
 export function useCommunesCoverage() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);

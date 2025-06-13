@@ -9,7 +9,7 @@ export function useExportFormats() {
   return useQuery({
     queryKey: ['export', 'formats'],
     queryFn: () => ExportApi.getFormats(),
-    staleTime: 60 * 60 * 1000, // 1 heure (info statique)
+    staleTime: 60 * 60 * 1000, // 1 heure
     retry: 2,
   });
 }
@@ -32,7 +32,7 @@ export function useExportPreview(params?: {
   });
 }
 
-// ✅ Hook pour l'export CSV avec filtres automatiques
+//Hook pour l'export CSV avec filtres automatiques
 export function useExportCsv() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -70,7 +70,7 @@ export function useExportCsv() {
   });
 }
 
-// ✅ Hook pour l'export JSON avec filtres automatiques
+//Hook pour l'export JSON avec filtres automatiques
 export function useExportJson() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -108,7 +108,7 @@ export function useExportJson() {
   });
 }
 
-// ✅ Hook pour l'export Excel avec filtres automatiques
+//Hook pour l'export Excel avec filtres automatiques
 export function useExportExcel() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -148,7 +148,7 @@ export function useExportExcel() {
   });
 }
 
-// ✅ Hook pour l'export rapport PDF avec filtres automatiques
+//Hook pour l'export rapport PDF avec filtres automatiques
 export function useExportPdfReport() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -188,7 +188,7 @@ export function useExportPdfReport() {
   });
 }
 
-// ✅ Hook pour l'export PDF statistiques avec filtres automatiques
+//Hook pour l'export PDF statistiques avec filtres automatiques
 export function useExportPdfStats() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -220,7 +220,7 @@ export function useExportPdfStats() {
   });
 }
 
-// Hook pour l'export PDF commune (INCHANGÉ - pas besoin de filtres globaux)
+// Hook pour l'export PDF commune
 export function useExportPdfCommune() {
   return useMutation({
     mutationFn: (id: number) => ExportApi.exportPdfCommune(id),

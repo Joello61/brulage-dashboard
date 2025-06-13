@@ -542,7 +542,7 @@ export default function BrulageDetail() {
 
                           {pourcentageBrule > 100 && (
                             <div className="mt-2 p-2 bg-amber-100 border border-amber-300 rounded text-xs text-amber-800">
-                              ⚠️ La surface brûlée dépasse la surface totale des
+                              La surface brûlée dépasse la surface totale des
                               parcelles
                             </div>
                           )}

@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b border-white/20 bg-white/80 backdrop-blur-xl">
+      <nav className="sticky top-0 z-1000 w-full border-b border-white/20 bg-white/80 backdrop-blur-xl">
         <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Bouton hamburger mobile + Logo */}
           <div className="flex items-center space-x-4">

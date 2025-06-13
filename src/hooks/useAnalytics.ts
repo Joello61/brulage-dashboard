@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { AnalyticsApi } from '@/api/analytics';
 import { useFiltersStore } from '@/store/filtersStore';
 
-// ✅ Hook simplifié pour les données du dashboard
+//Hook simplifié pour les données du dashboard
 export function useAnalyticsDashboard() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -23,7 +23,7 @@ export function useAnalyticsDashboard() {
   });
 }
 
-// ✅ Hook pour les métriques de performance
+//Hook pour les métriques de performance
 export function usePerformanceMetrics() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -43,7 +43,7 @@ export function usePerformanceMetrics() {
   });
 }
 
-// ✅ Hook pour les données cartographiques
+//Hook pour les données cartographiques
 export function useMapAnalytics() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -63,7 +63,7 @@ export function useMapAnalytics() {
   });
 }
 
-// ✅ Hook pour l'analyse des conditions météorologiques (INCHANGÉ)
+//Hook pour l'analyse des conditions météorologiques (INCHANGÉ)
 export function useAnalyticsConditions(period: string = 'year') {
   return useQuery({
     queryKey: ['analytics', 'conditions', period],
@@ -73,7 +73,7 @@ export function useAnalyticsConditions(period: string = 'year') {
   });
 }
 
-// ✅ Hook pour les tendances avec prédictions
+//Hook pour les tendances avec prédictions
 export function useAnalyticsTrends(years: number = 3) {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -93,7 +93,7 @@ export function useAnalyticsTrends(years: number = 3) {
   });
 }
 
-// ✅ Hook pour les prédictions et recommandations (INCHANGÉ)
+//Hook pour les prédictions et recommandations (INCHANGÉ)
 export function useAnalyticsPredictions() {
   return useQuery({
     queryKey: ['analytics', 'predictions'],
@@ -103,7 +103,7 @@ export function useAnalyticsPredictions() {
   });
 }
 
-// ✅ Hook pour le résumé exécutif complet
+//Hook pour le résumé exécutif complet
 export function useAnalyticsSummary() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
