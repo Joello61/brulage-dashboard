@@ -228,11 +228,6 @@ export default function BrulagesList() {
     setSelectedBrulage(brulage.id);
   };
 
-  // Gérer la localisation sur carte depuis le tableau
-  const handleLocateOnMap = (brulage: any) => {
-    setSelectedBrulage(brulage.id);
-  };
-
   // Gestion de la pagination
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -608,7 +603,6 @@ export default function BrulagesList() {
             {view === 'table' && (
               <BrulageTable 
                 brulages={brulages}
-                onLocateOnMap={handleLocateOnMap}
                 compact={isMobile}
               />
             )}

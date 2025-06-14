@@ -138,8 +138,6 @@ export function BrulageMap({
         );
         return null;
       }
-
-      console.log(`Polygone parsé avec succès: ${coordinates.length} points`);
       return [coordinates]; // Retourner un tableau de coordonnées pour Leaflet
     } catch (error) {
       console.warn(

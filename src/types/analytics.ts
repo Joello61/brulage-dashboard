@@ -1,6 +1,4 @@
-import type { ApiMetadata, DashboardStatsApi, AnalyticsTrendsApi, WeatherEfficiencyApi } from './api';
-
-// Types pour toutes les réponses analytics
+import type { ApiMetadata, DashboardStatsApi, WeatherEfficiencyApi } from './api';
 
 // Dashboard principal
 export interface AnalyticsDashboard extends DashboardStatsApi {
@@ -82,30 +80,6 @@ export interface AnalyticsConditions extends WeatherEfficiencyApi {
   metadata?: ApiMetadata;
 }
 
-// Tendances étendues
-export interface AnalyticsTrendsExtended extends AnalyticsTrendsApi {
-  machine_learning_insights?: {
-    pattern_detection: Array<{
-      pattern_type: string;
-      confidence: number;
-      description: string;
-    }>;
-    anomaly_detection: Array<{
-      date: string;
-      anomaly_type: string;
-      severity: 'low' | 'medium' | 'high';
-      explanation: string;
-    }>;
-    feature_importance: Record<string, number>;
-  };
-  comparative_analysis?: {
-    vs_national_average: number;
-    vs_regional_average: number;
-    ranking_position: number;
-    benchmarking_insights: string[];
-  };
-}
-
 // Prédictions avancées
 export interface AnalyticsPredictions {
   predictions: {
@@ -141,115 +115,6 @@ export interface AnalyticsPredictions {
     conditions: Record<string, any>;
   }>;
   confidence_level: number;
-  metadata?: ApiMetadata;
-}
-
-// Données cartographiques analytiques
-export interface AnalyticsMaps {
-  geojson: {
-    type: 'FeatureCollection';
-    features: Array<{
-      type: 'Feature';
-      geometry: {
-        type: 'Point';
-        coordinates: [number, number];
-      };
-      properties: {
-        id: number;
-        nom: string;
-        departement: string;
-        population?: number;
-        brulagesCount: number;
-        efficiency: number;
-        activity_level: 'high' | 'medium' | 'low' | 'none';
-        risk_level: 'low' | 'medium' | 'high';
-        last_activity?: string;
-      };
-    }>;
-  };
-  insights: {
-    by_region: Array<{
-      region: string;
-      count: number;
-      surface: number;
-      avg_efficiency: number;
-    }>;
-    coverage: {
-      total_communes: number;
-      communes_actives: number;
-      coverage_percentage: number;
-    };
-    hotspots: Array<{
-      nom: string;
-      coordinates: [number, number];
-      activity_score: number;
-      reason: string;
-    }>;
-    improvement_opportunities: Array<{
-      commune: string;
-      current_efficiency: number;
-      potential_improvement: number;
-      recommendations: string[];
-    }>;
-  };
-  clustering_analysis?: {
-    clusters: Array<{
-      cluster_id: number;
-      center: [number, number];
-      communes: string[];
-      characteristics: string[];
-    }>;
-    spatial_patterns: string[];
-  };
-  metadata?: ApiMetadata;
-}
-
-// Performance analytique
-export interface AnalyticsPerformance {
-  kpis: {
-    brulages: { total: number; anneeEnCours: number; evolution: number };
-    surface: { total: number; moyenne: number; evolution: number };
-    reussite: { tauxMoyen: number; evolution: number; distribution: Record<string, number> };
-    efficience: { score: number; benchmark: number; ranking: number };
-  };
-  trends: {
-    evolution_mensuelle: Array<{
-      mois: number;
-      count: number;
-      surface: number;
-      efficiency: number;
-      quality_score: number;
-    }>;
-    comparaison_annuelle: {
-      current: number;
-      previous: number;
-      two_years_ago: number;
-      trend_analysis: string;
-    };
-    performance_drivers: Array<{
-      factor: string;
-      impact: number;
-      trend: 'positive' | 'negative' | 'neutral';
-    }>;
-  };
-  benchmarking: {
-    industry_standards: Record<string, number>;
-    peer_comparison: Array<{
-      metric: string;
-      our_value: number;
-      peer_average: number;
-      ranking: number;
-    }>;
-    best_practices: string[];
-  };
-  optimization_opportunities: Array<{
-    area: string;
-    current_performance: number;
-    potential_improvement: number;
-    implementation_difficulty: 'low' | 'medium' | 'high';
-    expected_timeline: string;
-    priority_score: number;
-  }>;
   metadata?: ApiMetadata;
 }
 
@@ -348,80 +213,6 @@ export interface TimeSeriesDataPoint {
   category?: string;
   additionalMetrics?: Record<string, number>;
 }
-
-export interface PerformanceMatrix {
-  dimensions: Array<{
-    name: string;
-    weight: number;
-    current_score: number;
-    target_score: number;
-    trend: 'up' | 'down' | 'stable';
-  }>;
-  overall_score: number;
-  category: 'excellent' | 'good' | 'average' | 'poor';
-  improvement_areas: string[];
-}
-
-// Configuration pour les seuils d'alerte
-export interface AlertThresholds {
-  success_rate: {
-    critical: number;
-    warning: number;
-    target: number;
-  };
-  activity_level: {
-    minimum: number;
-    target: number;
-    maximum: number;
-  };
-  efficiency: {
-    poor: number;
-    average: number;
-    good: number;
-    excellent: number;
-  };
-}
-
-// Export des constantes
-export const DEFAULT_ALERT_THRESHOLDS: AlertThresholds = {
-  success_rate: {
-    critical: 50,
-    warning: 70,
-    target: 85
-  },
-  activity_level: {
-    minimum: 10,
-    target: 50,
-    maximum: 200
-  },
-  efficiency: {
-    poor: 60,
-    average: 75,
-    good: 85,
-    excellent: 95
-  }
-};
-
-// Helpers pour les calculs analytiques
-export const calculateTrend = (current: number, previous: number): {
-  percentage: number;
-  direction: 'up' | 'down' | 'stable';
-  classification: 'strong' | 'moderate' | 'weak';
-} => {
-  const percentage = ((current - previous) / previous) * 100;
-  const direction = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'stable';
-  const absPercentage = Math.abs(percentage);
-  const classification = absPercentage > 10 ? 'strong' : absPercentage > 3 ? 'moderate' : 'weak';
-  
-  return { percentage, direction, classification };
-};
-
-export const getPerformanceColor = (value: number, thresholds: { poor: number; average: number; good: number; excellent: number }): string => {
-  if (value >= thresholds.excellent) return '#22c55e'; // green
-  if (value >= thresholds.good) return '#3b82f6'; // blue
-  if (value >= thresholds.average) return '#eab308'; // yellow
-  return '#ef4444'; // red
-};
 
 export const formatPercentageChange = (value: number): string => {
   const sign = value > 0 ? '+' : '';

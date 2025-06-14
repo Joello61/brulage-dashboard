@@ -254,7 +254,6 @@ export default function Analytics() {
   const {
     data: conditionsData,
     isLoading: conditionsLoading,
-    error: conditionsError,
   } = useAnalyticsConditions(selectedPeriod);
 
   const {
@@ -265,8 +264,6 @@ export default function Analytics() {
 
   const {
     data: summaryData,
-    isLoading: summaryLoading,
-    error: summaryError,
   } = useAnalyticsSummary();
 
   // Récupérer la liste des communes pour les filtres
