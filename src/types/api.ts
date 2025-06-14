@@ -259,7 +259,7 @@ export interface AnalyticsTrendsApi {
       previous: number;
     };
     top_communes: Array<{
-      nomCommune: string;
+      nom_commune: string;
       count: number;
       surface: number;
     }>;

@@ -12,6 +12,9 @@ import {
   RecommendationsPanel,
   ExecutiveSummary,
   AnalyticsFooter,
+  CalendarHeatmap,
+  WeatherRadar,
+  CommunesHeatmap,
 } from "@/components/analytics";
 
 // Import des hooks personnalisés
@@ -162,9 +165,32 @@ export default function Analytics() {
       {/* KPIs principaux */}
       <KPIGrid data={kpiData} />
 
-      {/* Graphiques principaux */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <HistoricalChart
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+          Analyses Avancées
+        </h2>
+        
+        {/* Heatmap calendaire - Pleine largeur */}
+        <CalendarHeatmap
+          trendsData={trendsData}
+          loading={trendsLoading}
+          error={trendsError}
+        />
+
+        <WeatherRadar
+            trendsData={trendsData}
+            loading={trendsLoading}
+            error={trendsError}
+          />
+          
+          <CommunesHeatmap
+            trendsData={trendsData}
+            loading={trendsLoading}
+            error={trendsError}
+          />
+      </div>
+
+      <HistoricalChart
           data={historicalData}
           yearsForTrends={yearsForTrends}
           onYearsChange={setYearsForTrends}
@@ -177,7 +203,6 @@ export default function Analytics() {
           loading={dashboardLoading}
           error={dashboardError}
         />
-      </div>
 
       {/* Conditions météorologiques et tendances saisonnières */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
