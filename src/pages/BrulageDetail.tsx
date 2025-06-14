@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -18,18 +18,16 @@ import {
   Thermometer,
   Wind,
   Droplets,
-  Eye,
   Download,
   AlertTriangle,
   CheckCircle2,
   Clock,
   Target,
   FileText,
-  Camera,
   CloudRain,
   Sun,
-  Map,
   Activity,
+  AreaChart,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -37,7 +35,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BrulageMap } from "@/components/brulages/BrulageMap";
 import { useBrulage, useBrulageConditions } from "@/hooks/useBrulages";
 import { useExportPdfCommune } from "@/hooks/useExports";
 import {
@@ -49,6 +46,7 @@ import {
   formatDateRelative,
 } from "@/types/brulage";
 import { cn } from "@/lib/utils";
+import { ParcellesSection } from "@/components/brulages/ParcellesSection";
 
 export default function BrulageDetail() {
   const { id } = useParams<{ id: string }>();
@@ -200,9 +198,9 @@ export default function BrulageDetail() {
       </div>
 
       {/* Layout principal */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {/* Contenu principal */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
           {/* Statut et informations principales */}
           <Card className="border-0 shadow-lg">
             <CardHeader>
@@ -367,272 +365,66 @@ export default function BrulageDetail() {
               )}
             </CardContent>
           </Card>
+          
           {/* Détail des parcelles */}
-          {brulage.commune?.parcelles &&
-            brulage.commune.parcelles.length > 0 && (
-              <Card className="border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Map className="h-5 w-5" />
-                    Parcelles ({brulage.commune.parcelles.length})
-                  </CardTitle>
-                  <CardDescription>
-                    Détail des {brulage.commune.parcelles.length} parcelle
-                    {brulage.commune.parcelles.length > 1 ? "s" : ""} concernée
-                    {brulage.commune.parcelles.length > 1 ? "s" : ""} par le
-                    brûlage
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {/* Résumé des surfaces */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">
-                          {brulage.commune.parcelles.length}
-                        </div>
-                        <div className="text-sm text-gray-600">Parcelles</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-600">
-                          {(
-                            brulage.commune.parcelles?.reduce(
-                              (total, parcelle) =>
-                                total + parseFloat(parcelle.surface_totale),
-                              0
-                            ) || 0
-                          ).toFixed(2)}{" "}
-                          ha
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Surface totale
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600">
-                          {brulage.surface_reelle} ha
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Surface brûlée
-                        </div>
-                      </div>
-                    </div>
+          
+          <ParcellesSection brulage={brulage} />
 
-                    {/* Carte de localisation */}
-                    {brulage?.commune?.coordonnees && (
-                      <BrulageMap
-                        brulages={[brulage]}
-                        selectedBrulage={brulage.id}
-                        height="h-[500px]"
-                        showControls={true}
-                        title="Localisation"
-                        description={`Position du brûlage à ${brulage.commune?.nom}`}
-                        className="border-0 shadow-lg"
-                      />
+          {/* Surface */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <AreaChart className="h-5 w-5" />
+                Surface
+              </CardTitle>
+              <CardDescription>
+                Surface brulée
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <Target className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Surface</div>
+                  <div className="text-sm text-gray-600">
+                    {formatSurface(brulage.surface_reelle)} brûlés
+                    {brulage.surface_prevue &&
+                      brulage.surface_reelle &&
+                      brulage.surface_prevue !== brulage.surface_reelle && (
+                        <span className="text-xs text-gray-500 ml-1">
+                          (prévu: {formatSurface(brulage.surface_prevue)})
+                        </span>
+                      )}
+                  </div>
+                  {brulage.commune?.parcelles &&
+                    brulage.commune.parcelles.length > 0 && (
+                      <div className="text-xs text-gray-500">
+                        Sur{" "}
+                        {(
+                          brulage.commune.parcelles?.reduce(
+                            (total, p) => total + parseFloat(p.surface_totale),
+                            0
+                          ) || 0
+                        ).toFixed(2)}{" "}
+                        ha de parcelles
+                      </div>
                     )}
-
-                    {/* Liste des parcelles */}
-                    <div className="space-y-3">
-                      <div className="text-sm font-medium text-gray-700 mb-2">
-                        Détail par parcelle :
-                      </div>
-
-                      {brulage.commune.parcelles
-                        ?.sort(
-                          (a, b) =>
-                            parseFloat(b.surface_totale) -
-                            parseFloat(a.surface_totale)
-                        )
-                        ?.map((parcelle, index) => {
-                          const surfaceParcelle = parseFloat(
-                            parcelle.surface_totale
-                          );
-                          const surfaceTotaleParcelles =
-                            brulage.commune.parcelles?.reduce(
-                              (total, p) =>
-                                total + parseFloat(p.surface_totale),
-                              0
-                            ) || 0;
-                          const pourcentageTotal =
-                            surfaceTotaleParcelles > 0
-                              ? (surfaceParcelle / surfaceTotaleParcelles) * 100
-                              : 0;
-
-                          return (
-                            <div
-                              key={parcelle.id}
-                              className="flex items-center justify-between p-3 bg-white border rounded-lg hover:bg-gray-50 transition-colors"
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
-                                  {index + 1}
-                                </div>
-                                <div>
-                                  <div className="font-medium text-gray-900">
-                                    Parcelle #{parcelle.id}
-                                  </div>
-                                  <div className="text-sm text-gray-500">
-                                    {pourcentageTotal.toFixed(1)}% de la surface
-                                    totale
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="text-right">
-                                <div className="font-semibold text-gray-900">
-                                  {surfaceParcelle.toFixed(2)} ha
-                                </div>
-                                <Badge
-                                  variant="outline"
-                                  className={`text-xs ${
-                                    surfaceParcelle >= 10
-                                      ? "border-green-500 text-green-700"
-                                      : surfaceParcelle >= 5
-                                      ? "border-yellow-500 text-yellow-700"
-                                      : "border-gray-500 text-gray-700"
-                                  }`}
-                                >
-                                  {surfaceParcelle >= 10
-                                    ? "Grande"
-                                    : surfaceParcelle >= 5
-                                    ? "Moyenne"
-                                    : "Petite"}
-                                </Badge>
-                              </div>
-                            </div>
-                          );
-                        }) || []}
-                    </div>
-
-                    {/* Comparaison surface totale vs surface brûlée */}
-                    {(() => {
-                      const surfaceTotaleParcelles =
-                        brulage.commune.parcelles?.reduce(
-                          (total, parcelle) =>
-                            total + parseFloat(parcelle.surface_totale),
-                          0
-                        ) || 0;
-                      const pourcentageBrule =
-                        (brulage.surface_reelle / surfaceTotaleParcelles) * 100;
-
-                      return (
-                        <div className="p-4 bg-blue-50 rounded-lg">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-blue-800">
-                              Couverture du brûlage
-                            </span>
-                            <span className="text-lg font-bold text-blue-900">
-                              {pourcentageBrule.toFixed(1)}%
-                            </span>
-                          </div>
-
-                          <div className="w-full bg-blue-200 rounded-full h-3">
-                            <div
-                              className="bg-blue-600 h-3 rounded-full transition-all duration-300"
-                              style={{
-                                width: `${Math.min(pourcentageBrule, 100)}%`,
-                              }}
-                            />
-                          </div>
-
-                          <div className="flex justify-between text-xs text-blue-700 mt-1">
-                            <span>0 ha</span>
-                            <span>{surfaceTotaleParcelles.toFixed(2)} ha</span>
-                          </div>
-
-                          {pourcentageBrule > 100 && (
-                            <div className="mt-2 p-2 bg-amber-100 border border-amber-300 rounded text-xs text-amber-800">
-                              La surface brûlée dépasse la surface totale des
-                              parcelles
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })()}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Target className="h-5 w-5 text-green-600" />
-            </div>
-            <div>
-              <div className="font-semibold text-gray-900">Surface</div>
-              <div className="text-sm text-gray-600">
-                {formatSurface(brulage.surface_reelle)} brûlés
-                {brulage.surface_prevue &&
-                  brulage.surface_reelle &&
-                  brulage.surface_prevue !== brulage.surface_reelle && (
-                    <span className="text-xs text-gray-500 ml-1">
-                      (prévu: {formatSurface(brulage.surface_prevue)})
-                    </span>
-                  )}
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      "text-xs mt-1",
+                      getTypeColor(brulage.type_brulage)
+                    )}
+                  >
+                    {brulage.type_brulage}
+                  </Badge>
+                </div>
               </div>
-              {brulage.commune?.parcelles &&
-                brulage.commune.parcelles.length > 0 && (
-                  <div className="text-xs text-gray-500">
-                    Sur{" "}
-                    {(
-                      brulage.commune.parcelles?.reduce(
-                        (total, p) => total + parseFloat(p.surface_totale),
-                        0
-                      ) || 0
-                    ).toFixed(2)}{" "}
-                    ha de parcelles
-                  </div>
-                )}
-              <Badge
-                variant="outline"
-                className={cn(
-                  "text-xs mt-1",
-                  getTypeColor(brulage.type_brulage)
-                )}
-              >
-                {brulage.type_brulage}
-              </Badge>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Target className="h-5 w-5 text-green-600" />
-            </div>
-            <div>
-              <div className="font-semibold text-gray-900">Surface</div>
-              <div className="text-sm text-gray-600">
-                {formatSurface(brulage.surface_reelle)} brûlés
-                {brulage.surface_prevue &&
-                  brulage.surface_reelle &&
-                  brulage.surface_prevue !== brulage.surface_reelle && (
-                    <span className="text-xs text-gray-500 ml-1">
-                      (prévu: {formatSurface(brulage.surface_prevue)})
-                    </span>
-                  )}
-              </div>
-              {brulage.commune?.parcelles &&
-                brulage.commune.parcelles.length > 0 && (
-                  <div className="text-xs text-gray-500">
-                    Sur{" "}
-                    {brulage.commune.parcelles
-                      .reduce(
-                        (total, p) => total + parseFloat(p.surface_totale),
-                        0
-                      )
-                      .toFixed(2)}{" "}
-                    ha de parcelles
-                  </div>
-                )}
-              <Badge
-                variant="outline"
-                className={cn(
-                  "text-xs mt-1",
-                  getTypeColor(brulage.type_brulage)
-                )}
-              >
-                {brulage.type_brulage}
-              </Badge>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
+
           {/* Conditions et performance */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Conditions météorologiques */}
@@ -865,11 +657,8 @@ export default function BrulageDetail() {
               )}
             </div>
           )}
-        </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Observations */}
+          {/* Observations et commentaires */}
           {brulage.observations && (
             <Card className="border-0 shadow-lg">
               <CardHeader>
@@ -887,71 +676,6 @@ export default function BrulageDetail() {
               </CardContent>
             </Card>
           )}
-
-          {/* Actions rapides */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-lg">Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button className="w-full" variant="outline" asChild>
-                <Link to={`/brulages/${brulage?.id}/timeline`}>
-                  <Eye className="h-4 w-4 mr-2" />
-                  Voir la timeline
-                </Link>
-              </Button>
-              <Button className="w-full" variant="outline" asChild>
-                <Link to={`/brulages/${brulage?.id}/media`}>
-                  <Camera className="h-4 w-4 mr-2" />
-                  Photos et documents
-                </Link>
-              </Button>
-              <Button
-                className="w-full"
-                variant="outline"
-                onClick={handleExportPdf}
-                disabled={exportPdfMutation.isPending}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                {exportPdfMutation.isPending
-                  ? "Génération..."
-                  : "Télécharger le rapport"}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Informations système */}
-          <Card className="border-0 shadow-lg bg-gray-50">
-            <CardHeader>
-              <CardTitle className="text-sm text-gray-700">
-                Informations système
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-xs text-gray-600">
-              <div className="flex justify-between">
-                <span>ID:</span>
-                <span className="font-mono">#{brulage?.id}</span>
-              </div>
-              {brulage?.created_at && (
-                <div className="flex justify-between">
-                  <span>Créé le:</span>
-                  <span>{formatDate(brulage.created_at)}</span>
-                </div>
-              )}
-              {brulage?.updated_at && (
-                <div className="flex justify-between">
-                  <span>Modifié le:</span>
-                  <span>{formatDate(brulage.updated_at)}</span>
-                </div>
-              )}
-              {brulage?.campagne && (
-                <div className="flex justify-between">
-                  <span>Campagne:</span>
-                  <span>{brulage.campagne}</span>
-                </div>
-              )}
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

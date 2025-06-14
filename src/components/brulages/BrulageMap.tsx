@@ -114,7 +114,7 @@ export function BrulageMap({
             lng >= -180 &&
             lng <= 180
           ) {
-            coordinates.push([lat, lng]); // Leaflet utilise [lat, lng]
+            coordinates.push([lat, lng]);
           } else {
             console.warn(
               "Coordonnées hors limites:",
@@ -473,7 +473,7 @@ export function BrulageMap({
                 hasParcellesData
                   ? `
                 <br/><span style="color: #059669;">
-                  • ${brulagesWithParcellesInGroup.length} avec parcelles définies
+                  - ${brulagesWithParcellesInGroup.length} avec parcelles définies
                 </span>
               `
                   : ""
@@ -482,7 +482,7 @@ export function BrulageMap({
                 brulagesWithoutParcellesInGroup.length > 0
                   ? `
                 <br/><span style="color: #dc2626;">
-                  • ${brulagesWithoutParcellesInGroup.length} sans parcelles
+                  - ${brulagesWithoutParcellesInGroup.length} sans parcelles
                 </span>
               `
                   : ""
@@ -537,12 +537,12 @@ export function BrulageMap({
                       hasParcelleData
                         ? `
                       <div style="color: #059669; font-size: 11px; margin-top: 2px;">
-                        ✓ Parcelles définies (${brulage.commune.parcelles?.length})
+                        Parcelles définies (${brulage.commune.parcelles?.length})
                       </div>
                     `
                         : `
                       <div style="color: #dc2626; font-size: 11px; margin-top: 2px;">
-                        ⚠ Position approximative
+                        Position approximative
                       </div>
                     `
                     }
@@ -750,7 +750,7 @@ export function BrulageMap({
       {typeof window !== "undefined" && typeof window.L === "undefined" && (
         <div className="absolute inset-0 flex items-center justify-center bg-red-50 rounded-lg">
           <div className="text-center space-y-2 p-4">
-            <div className="text-red-600">⚠️ Leaflet non chargé</div>
+            <div className="text-red-600">Leaflet non chargé</div>
             <p className="text-sm text-red-700">
               Ajoutez Leaflet à votre index.html
             </p>
