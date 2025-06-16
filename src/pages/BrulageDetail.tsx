@@ -18,7 +18,6 @@ import {
   Thermometer,
   Wind,
   Droplets,
-  Download,
   AlertTriangle,
   CheckCircle2,
   Clock,
@@ -29,14 +28,7 @@ import {
   Activity,
   AreaChart,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useBrulage, useBrulageConditions } from "@/hooks/useBrulages";
-import { useExportPdfCommune } from "@/hooks/useExports";
 import {
   getStatutColor,
   getStatutLabel,
@@ -63,15 +55,6 @@ export default function BrulageDetail() {
   } = useBrulage(brulageId, !!id);
   const { data: conditionsData, isLoading: isConditionsLoading } =
     useBrulageConditions(brulageId, !!brulage);
-
-  // Hook d'export
-  const exportPdfMutation = useExportPdfCommune();
-
-  const handleExportPdf = () => {
-    if (brulage) {
-      exportPdfMutation.mutate(brulage.id);
-    }
-  };
 
   // États de chargement
   if (isLoading) {
@@ -169,31 +152,6 @@ export default function BrulageDetail() {
               {formatDateRelative(brulage.date_realisation)}
             </p>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={exportPdfMutation.isPending}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                {exportPdfMutation.isPending ? "Export..." : "Exporter"}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleExportPdf}>
-                <FileText className="h-4 w-4 mr-2" />
-                Rapport PDF
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.print()}>
-                <FileText className="h-4 w-4 mr-2" />
-                Imprimer la page
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 

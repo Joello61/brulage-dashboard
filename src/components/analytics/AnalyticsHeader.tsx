@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { BarChart3, RefreshCw, Download, Calendar, X } from "lucide-react";
+import { BarChart3, RefreshCw, Calendar, X } from "lucide-react";
 
 interface AnalyticsHeaderProps {
   hasDateFilters: boolean;
@@ -16,7 +16,6 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({
   dateStart,
   dateEnd,
   onRefresh,
-  onExportPdf,
   onClearDateFilter,
 }) => {
   return (
@@ -68,15 +67,6 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Actualiser
-              </Button>
-
-              <Button
-                size="sm"
-                className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 shadow-lg"
-                onClick={onExportPdf}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Export
               </Button>
             </div>
           </div>
