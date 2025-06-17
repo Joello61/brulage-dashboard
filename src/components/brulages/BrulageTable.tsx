@@ -21,8 +21,6 @@ import {
   MapPin,
   Calendar,
   Users,
-  Map,
-  ExternalLink
 } from 'lucide-react';
 import { 
   getStatutColor, 
@@ -36,14 +34,12 @@ import { cn } from '@/lib/utils';
 
 interface BrulageTableProps {
   brulages: Brulage[];
-  onLocateOnMap?: (brulage: Brulage) => void;
   className?: string;
   compact?: boolean;
 }
 
 export function BrulageTable({ 
   brulages, 
-  onLocateOnMap, 
   className, 
   compact = false 
 }: BrulageTableProps) {
@@ -192,23 +188,6 @@ export function BrulageTable({
                         <Link to={`/brulages/${brulage.id}`} className="flex items-center cursor-pointer">
                           <Eye className="h-4 w-4 mr-2" />
                           Voir détails
-                        </Link>
-                      </DropdownMenuItem>
-                      
-                      {brulage.commune.coordonnees && onLocateOnMap && (
-                        <DropdownMenuItem onClick={() => onLocateOnMap(brulage)}>
-                          <Map className="h-4 w-4 mr-2" />
-                          Localiser sur carte
-                        </DropdownMenuItem>
-                      )}
-                      
-                      <DropdownMenuItem asChild>
-                        <Link 
-                          to={`/map?brulage=${brulage.id}`} 
-                          className="flex items-center cursor-pointer"
-                        >
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          Ouvrir dans carte
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuContent>

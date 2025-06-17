@@ -50,7 +50,7 @@ export function useBrulages(params?: {
 
         const response = await apiClient.get<BrulagesResponse>(`/brulages?${queryParams}`);
         
-        // SÉCURISER : Vérifier que response.data existe
+        // Vérifier que response.data existe
         if (!response.data || !response.data.data) {
           return {
             brulages: [],
@@ -65,7 +65,7 @@ export function useBrulages(params?: {
           };
         }
 
-        // SÉCURISER : Transformer seulement les brûlages valides
+        // Transformer seulement les brûlages valides
         const brulages = response.data.data
           .filter(item => item && item.id) // Filtrer les éléments null/undefined
           .map(item => {
@@ -128,7 +128,7 @@ export function useBrulage(id: number, enabled: boolean = true) {
   });
 }
 
-// ✅ Hook pour les statistiques du dashboard avec filtres
+//Hook pour les statistiques du dashboard avec filtres
 export function useBrulagesStats() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -171,7 +171,7 @@ export function useBrulagesSearch(query: string, enabled: boolean = true) {
   });
 }
 
-// ✅ Hook pour les brûlages récents avec filtres
+//Hook pour les brûlages récents avec filtres
 export function useRecentBrulages(limit: number = 10) {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -197,16 +197,7 @@ export function useRecentBrulages(limit: number = 10) {
   });
 }
 
-// Hook combiné pour gérer l'état de liste avec filtres
-export function useBrulagesList() {
-  // Ce hook pourrait être étendu pour intégrer automatiquement
-  // les filtres du store si nécessaire
-  return {
-    // Placeholder pour une future intégration store + hooks
-  };
-}
-
-// ✅ Hook pour les métriques de performance avec filtres
+//Hook pour les métriques de performance avec filtres
 export function useBrulagesPerformance() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -232,7 +223,7 @@ export function useBrulagesPerformance() {
   });
 }
 
-// ✅ Hook pour les tendances temporelles avec filtres
+//Hook pour les tendances temporelles avec filtres
 export function useBrulagesTrends(years: number = 3) {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -269,7 +260,7 @@ export function useBrulageConditions(id: number, enabled: boolean = true) {
   });
 }
 
-// ✅ Hook pour l'export CSV avec filtres automatiques
+//Hook pour l'export CSV avec filtres automatiques
 export function useBrulagesExportCsv() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -304,7 +295,7 @@ export function useBrulagesExportCsv() {
   });
 }
 
-// ✅ Hook pour l'export JSON avec filtres automatiques
+//Hook pour l'export JSON avec filtres automatiques
 export function useBrulagesExportJson() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -339,7 +330,7 @@ export function useBrulagesExportJson() {
   });
 }
 
-// ✅ Hook pour l'export PDF avec filtres automatiques
+//Hook pour l'export PDF avec filtres automatiques
 export function useBrulagesExportPdf() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);

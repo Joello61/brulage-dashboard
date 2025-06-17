@@ -260,18 +260,6 @@ const transformDemandeurFromApi = (apiDemandeur: DemandeurApi): Demandeur => {
   };
 };
 
-// Helper pour parser les coordonnées PostGIS
-const parseCoordinates = (pointString: string): { latitude: number; longitude: number } | undefined => {
-  const match = pointString.match(/POINT\(([0-9.-]+)\s+([0-9.-]+)\)/);
-  if (match) {
-    return {
-      longitude: parseFloat(match[1]),
-      latitude: parseFloat(match[2])
-    };
-  }
-  return undefined;
-};
-
 // ===== HELPERS POUR L'AFFICHAGE =====
 
 export const getStatutColor = (statut: string): string => {

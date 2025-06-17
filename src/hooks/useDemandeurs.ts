@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { DemandeursApi } from '@/api/demandeurs';
 import { useFiltersStore } from '@/store/filtersStore';
 
-// Hook principal pour la liste des demandeurs (INCHANGÉ - pas besoin de filtres globaux)
+// Hook principal pour la liste des demandeurs
 export function useDemandeurs(params?: {
   type?: string;
   search?: string;
@@ -22,7 +22,7 @@ export function useDemandeurs(params?: {
   });
 }
 
-// Hook pour un demandeur spécifique (INCHANGÉ)
+// Hook pour un demandeur spécifique
 export function useDemandeur(id: number, enabled: boolean = true) {
   return useQuery({
     queryKey: ['demandeur', id],
@@ -33,7 +33,7 @@ export function useDemandeur(id: number, enabled: boolean = true) {
   });
 }
 
-// ✅ Hook pour les statistiques des demandeurs avec filtres
+//Hook pour les statistiques des demandeurs avec filtres
 export function useDemandeursStats() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -51,7 +51,7 @@ export function useDemandeursStats() {
   });
 }
 
-// ✅ Hook pour l'analyse de performance des demandeurs avec filtres
+//Hook pour l'analyse de performance des demandeurs avec filtres
 export function useDemandeursPerformance(params?: {
   limit?: number;
   sortBy?: 'taux_moyen' | 'total_brulages' | 'surface_totale';
@@ -73,7 +73,7 @@ export function useDemandeursPerformance(params?: {
   });
 }
 
-// ✅ Hook pour les statistiques par type de demandeur avec filtres
+//Hook pour les statistiques par type de demandeur avec filtres
 export function useDemandeursTypes() {
   const dateStart = useFiltersStore((state) => state.filters.dateStart);
   const dateEnd = useFiltersStore((state) => state.filters.dateEnd);
@@ -91,7 +91,7 @@ export function useDemandeursTypes() {
   });
 }
 
-// Hook pour les demandeurs actifs (INCHANGÉ - a déjà son propre filtre temporel)
+// Hook pour les demandeurs actifs
 export function useDemandeursActive(months: number = 12) {
   return useQuery({
     queryKey: ['demandeurs', 'active', months],
@@ -101,7 +101,7 @@ export function useDemandeursActive(months: number = 12) {
   });
 }
 
-// Hook pour l'analyse de fidélité (INCHANGÉ - analyse globale)
+// Hook pour l'analyse de fidélité
 export function useDemandeursLoyalty() {
   return useQuery({
     queryKey: ['demandeurs', 'loyalty'],
@@ -111,7 +111,7 @@ export function useDemandeursLoyalty() {
   });
 }
 
-// Hook pour la recherche avancée de demandeurs (INCHANGÉ - a déjà ses propres filtres)
+// Hook pour la recherche avancée de demandeurs
 export function useDemandeursSearchAdvanced(params?: {
   type?: string;
   region?: string;
@@ -132,7 +132,7 @@ export function useDemandeursSearchAdvanced(params?: {
   });
 }
 
-// Hook pour les tendances d'activité des demandeurs (INCHANGÉ - a déjà son propre paramètre temporel)
+// Hook pour les tendances d'activité des demandeurs
 export function useDemandeursTrends(years: number = 3) {
   return useQuery({
     queryKey: ['demandeurs', 'trends', years],

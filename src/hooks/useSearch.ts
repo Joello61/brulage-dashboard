@@ -24,7 +24,7 @@ export function useSearch<T extends Record<string, any>>({
   defaultSort = 'id' as keyof T,
   defaultOrder = 'desc'
 }: UseSearchProps<T>) {
-  // ✅ Initialisation stable des filtres par défaut
+  //Initialisation stable des filtres par défaut
   const defaultFilters = useMemo(() => ({
     searchTerm: '',
     statusFilter: 'TOUS',
@@ -65,7 +65,7 @@ export function useSearch<T extends Record<string, any>>({
     });
   }, [searchFields]);
 
-  // ✅ Fonction de filtrage séparée pour une meilleure lisibilité
+  //Fonction de filtrage séparée pour une meilleure lisibilité
   const filterItem = useCallback((item: T): boolean => {
     // Recherche textuelle
     const matchesSearch = searchInFields(item, filters.searchTerm);
@@ -120,7 +120,7 @@ export function useSearch<T extends Record<string, any>>({
     return matchesSearch && matchesStatus && matchesCommune && matchesType && matchesDateRange;
   }, [filters, searchInFields]);
 
-  // ✅ Fonction de tri séparée et optimisée
+  //Fonction de tri séparée et optimisée
   const sortData = useCallback((filteredItems: T[]): T[] => {
     const { sortBy, sortOrder } = filters;
     
@@ -198,7 +198,7 @@ export function useSearch<T extends Record<string, any>>({
     setFilters(defaultFilters);
   }, [defaultFilters]);
 
-  // ✅ Actions spécialisées avec callbacks stables
+  //Actions spécialisées avec callbacks stables
   const setSearchTerm = useCallback((term: string) => updateFilter('searchTerm', term), [updateFilter]);
   const setStatusFilter = useCallback((status: string) => updateFilter('statusFilter', status), [updateFilter]);
   const setCommuneFilter = useCallback((commune: string) => updateFilter('communeFilter', commune), [updateFilter]);
@@ -210,7 +210,7 @@ export function useSearch<T extends Record<string, any>>({
     setFilters(prev => ({ ...prev, dateStart: start, dateEnd: end }));
   }, []);
 
-  // 📊 Statistiques avec mémorisation
+  // Statistiques avec mémorisation
   const stats = useMemo(() => {
     return {
       total: data.length,
@@ -219,7 +219,7 @@ export function useSearch<T extends Record<string, any>>({
     };
   }, [data.length, filteredData.length]);
 
-  // ✅ Objet de retour stable
+  //Objet de retour stable
   return useMemo(() => ({
     // État des filtres
     filters,
@@ -263,7 +263,7 @@ export function useSearch<T extends Record<string, any>>({
   ]);
 }
 
-// 🎯 Hook spécialisé pour les brûlages
+// Hook spécialisé pour les brûlages
 export function useBrulageSearch(brulages: any[]) {
   return useSearch({
     data: brulages,
@@ -273,7 +273,7 @@ export function useBrulageSearch(brulages: any[]) {
   });
 }
 
-// 🏢 Hook spécialisé pour les communes
+// Hook spécialisé pour les communes
 export function useCommuneSearch(communes: any[]) {
   return useSearch({
     data: communes,
@@ -283,7 +283,7 @@ export function useCommuneSearch(communes: any[]) {
   });
 }
 
-// 👤 Hook spécialisé pour les demandeurs
+// Hook spécialisé pour les demandeurs
 export function useDemandeurSearch(demandeurs: any[]) {
   return useSearch({
     data: demandeurs,

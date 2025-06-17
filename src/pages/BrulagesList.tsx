@@ -13,7 +13,6 @@ import {
   ChevronRight,
   FileText,
   FileSpreadsheet,
-  FileImage,
   Calendar,
   CalendarDays,
   Filter,
@@ -37,7 +36,7 @@ import { BrulageMap } from '@/components/brulages/BrulageMap';
 import { EmptyState } from '@/components/ui/empty-state';
 import { useBrulages } from '@/hooks/useBrulages';
 import { useCommunes } from '@/hooks/useCommunes';
-import { useExportCsv, useExportJson, useExportPdfReport } from '@/hooks/useExports';
+import { useExportCsv, useExportJson } from '@/hooks/useExports';
 import { useFiltersStore } from '@/store/filtersStore';
 import { useUIStore } from '@/store/uiStore';
 import { cn } from '@/lib/utils';
@@ -175,7 +174,6 @@ export default function BrulagesList() {
   // Hooks d'export
   const exportCsv = useExportCsv();
   const exportJson = useExportJson();
-  const exportPdf = useExportPdfReport();
 
   const brulages = data?.brulages || [];
   const pagination = data?.pagination;
@@ -229,11 +227,6 @@ export default function BrulagesList() {
     setSelectedBrulage(brulage.id);
   };
 
-  // Gérer la localisation sur carte depuis le tableau
-  const handleLocateOnMap = (brulage: any) => {
-    setSelectedBrulage(brulage.id);
-  };
-
   // Gestion de la pagination
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -246,7 +239,7 @@ export default function BrulagesList() {
   };
 
   // Gestion des exports
-  const handleExport = (format: 'csv' | 'json' | 'pdf') => {
+  const handleExport = (format: 'csv' | 'json') => {
     const exportFilters = apiFilters;
     
     switch (format) {
@@ -256,13 +249,10 @@ export default function BrulagesList() {
       case 'json':
         exportJson.mutate(exportFilters);
         break;
-      case 'pdf':
-        exportPdf.mutate(exportFilters);
-        break;
     }
   };
 
-  const isExporting = exportCsv.isPending || exportJson.isPending || exportPdf.isPending;
+  const isExporting = exportCsv.isPending || exportJson.isPending;
 
   // Calculs pour les statistiques rapides
   const activeBrulages = brulages.filter(b => b.statut === 'EN_COURS');
@@ -465,10 +455,6 @@ export default function BrulagesList() {
                   <FileText className="h-4 w-4 mr-2" />
                   Exporter en JSON
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleExport('pdf')}>
-                  <FileImage className="h-4 w-4 mr-2" />
-                  Exporter en PDF
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -613,7 +599,6 @@ export default function BrulagesList() {
             {view === 'table' && (
               <BrulageTable 
                 brulages={brulages}
-                onLocateOnMap={handleLocateOnMap}
                 compact={isMobile}
               />
             )}
